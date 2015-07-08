@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# use NZ repos
+sed -i s/us.archive.ubuntu.com/nz.archive.ubuntu.com/g /etc/apt/sources.list
 # Add CRAN to repos
 echo deb http://cran.stat.auckland.ac.nz/bin/linux/ubuntu precise/ > \
     /etc/apt/sources.list.d/CRAN.list
