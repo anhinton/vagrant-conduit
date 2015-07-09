@@ -17,7 +17,7 @@ apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev \
 
 ## customise /etc/matplotlibrc 
 ## sets backend to 'Agg' to prevent needing X windows
-sed -i 32s/TkAgg/Agg/ /etc/matplotlibrc
+sed -i -e 's/^backend[ ]*:[ ]*TkAgg/backend : Agg/' /etc/matplotlibrc
 
 ## install python modules
 ## download pip
