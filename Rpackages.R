@@ -7,7 +7,7 @@ chooseCRANmirror(
 setRepositories(ind=c(1,2,8))
 
 ## install packages from repos
-packages <- c("XML", "RCurl", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
+packages <- c("XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
               "devtools")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
