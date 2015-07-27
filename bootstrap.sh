@@ -10,9 +10,10 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # install packages
 # libxml2-dev is required by R package XML
 # libxslt-dev and libxml2-dev for python lxml
+# libcurl4-openssl-dev is required by R package RCurl
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
-    libxslt-dev python-matplotlib graphviz
+    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev
 
 ## customise /etc/matplotlibrc 
 ## sets backend to 'Agg' to prevent needing X windows
