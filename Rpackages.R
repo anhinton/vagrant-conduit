@@ -8,7 +8,7 @@ setRepositories(ind=c(1,2,8))
 
 ## install packages from repos
 packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
-              "devtools")
+              "devtools", "R2HTML")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
         install.packages(pkgs=pkg, lib=vagrantLib)

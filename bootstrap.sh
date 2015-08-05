@@ -13,7 +13,11 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # libcurl4-openssl-dev is required by R package RCurl
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
-    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev
+    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2
+
+## set timezone to NZ
+echo "Pacific/Auckland" | tee /etc/timezone
+dpkg-reconfigure --frontend noninteractive tzdata
 
 ## customise /etc/matplotlibrc 
 ## sets backend to 'Agg' to prevent needing X windows
@@ -37,3 +41,14 @@ mkdir -p /home/conduit/.ssh
 chmod 0700 /home/conduit/.ssh
 cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
 chown conduit:conduit -R /home/conduit/.ssh
+
+# set up conduit web server
+mkdir /var/www/conduit
+cp -r /vagrant/urlTesting /var/www/conduit/
+chown -R conduit:conduit /var/www/conduit
+rm /etc/apache2/sites-enabled/000-default
+cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
+sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
+ln -s /etc/apache2/sites-available/conduit /etc/apache2/sites-enabled/conduit
+service apache2 restart
+
