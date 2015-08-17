@@ -36,19 +36,24 @@ pip install -U pandas
 Rscript /vagrant/Rpackages.R
 
 # set up 'conduit' user for module host testing
-useradd -m conduit
-mkdir -p /home/conduit/.ssh
-chmod 0700 /home/conduit/.ssh
+if [ ! -d /home/conduit ]; then
+    useradd -m conduit
+fi
+if [ ! -d /home/conduit/.ssh ]; then
+    mkdir -p /home/conduit/.ssh
+    chmod 0700 /home/conduit/.ssh
+fi
 cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
 chown conduit:conduit -R /home/conduit/.ssh
 
 # set up conduit web server
-mkdir /var/www/conduit
+if [ ! -d /var/www/conduit ]; then
+    mkdir /var/www/conduit
+fi
 cp -r /vagrant/urlTesting /var/www/conduit/
 chown -R conduit:conduit /var/www/conduit
-rm /etc/apache2/sites-enabled/000-default
+a2dissite default
 cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
 sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
-ln -s /etc/apache2/sites-available/conduit /etc/apache2/sites-enabled/conduit
+a2ensite conduit
 service apache2 restart
-
