@@ -8,7 +8,7 @@ setRepositories(ind=c(1,2,8))
 
 ## install packages from repos
 packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
-              "devtools", "R2HTML")
+              "devtools", "R2HTML", "ggplot2")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
         install.packages(pkgs=pkg, lib=vagrantLib)
@@ -22,6 +22,4 @@ while (!require("gridGraphviz")) {
 }
 
 ## Install conduit
-if (!require(conduit)) {
-  devtools::install_github("anhinton/conduit", ref="develop", lib=vagrantLib)
-}
+devtools::install_github("anhinton/conduit", ref="develop", lib=vagrantLib)
