@@ -15,6 +15,18 @@ apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
     libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2
 
+# set up conduit web server
+if [ ! -d /var/www/conduit ]; then
+    mkdir /var/www/conduit
+fi
+cp -r /vagrant/urlTesting /var/www/conduit/
+chown -R conduit:conduit /var/www/conduit
+a2dissite default
+cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
+sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
+a2ensite conduit
+service apache2 restart
+
 ## set timezone to NZ
 echo "Pacific/Auckland" | tee /etc/timezone
 dpkg-reconfigure --frontend noninteractive tzdata
@@ -45,15 +57,3 @@ if [ ! -d /home/conduit/.ssh ]; then
 fi
 cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
 chown conduit:conduit -R /home/conduit/.ssh
-
-# set up conduit web server
-if [ ! -d /var/www/conduit ]; then
-    mkdir /var/www/conduit
-fi
-cp -r /vagrant/urlTesting /var/www/conduit/
-chown -R conduit:conduit /var/www/conduit
-a2dissite default
-cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
-sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
-a2ensite conduit
-service apache2 restart
