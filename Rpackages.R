@@ -8,7 +8,7 @@ setRepositories(ind=c(1,2,8))
 
 ## install packages from repos
 packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
-              "devtools", "R2HTML", "ggplot2", "data.frame", "git2r",
+              "devtools", "R2HTML", "ggplot2", "data.table", "git2r",
               "lattice", "classInt")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
