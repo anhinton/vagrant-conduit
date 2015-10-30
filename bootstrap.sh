@@ -13,19 +13,34 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # libcurl4-openssl-dev is required by R package RCurl
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
-    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2
+    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2 git
 
 # set up conduit web server
 if [ ! -d /var/www/conduit ]; then
     mkdir /var/www/conduit
 fi
-cp -r /vagrant/urlTesting /var/www/conduit/
-chown -R conduit:conduit /var/www/conduit
 a2dissite default
 cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
 sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
 a2ensite conduit
 service apache2 restart
+
+# copy files to web server
+cp -r /vagrant/urlTesting /var/www/conduit/
+cp -r /vagrant/report /var/www/conduit
+
+## create git repo for ukResonseErsatz example
+cd /var/www/conduit/report
+git clone --bare 7cc0d51de63cfefb80e8 
+cd 7cc0d51de63cfefb80e8.git
+mv hooks/post-update.sample hooks/post-update
+chmod a+x hooks/post-update
+git update-server-info
+cd
+service apache2 restart
+
+## set web server ownership
+chown -R conduit:conduit /var/www/conduit
 
 ## set timezone to NZ
 echo "Pacific/Auckland" | tee /etc/timezone
