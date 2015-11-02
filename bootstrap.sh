@@ -30,13 +30,22 @@ cp -r /vagrant/urlTesting /var/www/conduit/
 cp -r /vagrant/report /var/www/conduit
 
 ## create git repo for ukResonseErsatz example
-cd /var/www/conduit/report
-git clone --bare 7cc0d51de63cfefb80e8 
+cd /var/www/conduit/report/mappingFlowsGist
+git config --global user.name "conduit"
+git config --global user.email conduit
+git init
+git add mappingFlows.R
+git commit -am "initial commit"
+cd ..
+if [ -d 7cc0d51de63cfefb80e8.git ]; then
+    rm -rf 7cc0d51de63cfefb80e8.git
+fi
+git clone --bare mappingFlowsGist 7cc0d51de63cfefb80e8.git
 cd 7cc0d51de63cfefb80e8.git
 mv hooks/post-update.sample hooks/post-update
 chmod a+x hooks/post-update
 git update-server-info
-cd
+cd ~
 service apache2 restart
 
 ## set web server ownership
