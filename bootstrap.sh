@@ -15,6 +15,17 @@ apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
     libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2 git
 
+# set up 'conduit' user for module host testing
+if [ ! -d /home/conduit ]; then
+    useradd -m conduit
+fi
+if [ ! -d /home/conduit/.ssh ]; then
+    mkdir -p /home/conduit/.ssh
+    chmod 0700 /home/conduit/.ssh
+fi
+cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
+chown conduit:conduit -R /home/conduit/.ssh
+
 # set up conduit web server
 if [ ! -d /var/www/conduit ]; then
     mkdir /var/www/conduit
@@ -70,14 +81,3 @@ pip install -U pandas
 
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R
-
-# set up 'conduit' user for module host testing
-if [ ! -d /home/conduit ]; then
-    useradd -m conduit
-fi
-if [ ! -d /home/conduit/.ssh ]; then
-    mkdir -p /home/conduit/.ssh
-    chmod 0700 /home/conduit/.ssh
-fi
-cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
-chown conduit:conduit -R /home/conduit/.ssh
