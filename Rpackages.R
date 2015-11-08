@@ -23,4 +23,4 @@ while (!require("gridGraphviz")) {
 }
 
 ## Install conduit
-devtools::install_github("anhinton/conduit", ref="develop", lib=vagrantLib)
+devtools::install_github("anhinton/conduit", ref="v0.2", lib=vagrantLib)
