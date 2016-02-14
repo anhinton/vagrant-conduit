@@ -9,75 +9,9 @@ echo deb http://cran.stat.auckland.ac.nz/bin/linux/ubuntu precise/ > \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # install packages
 # libxml2-dev is required by R package XML
-# libxslt-dev and libxml2-dev for python lxml
 # libcurl4-openssl-dev is required by R package RCurl
 apt-get update
-apt-get install -y r-base r-base-dev libxml2-dev build-essential python-dev \
-    libxslt-dev python-matplotlib graphviz libcurl4-openssl-dev apache2 git
-
-# set up 'conduit' user for module host testing
-if [ ! -d /home/conduit ]; then
-    useradd -m conduit
-fi
-if [ ! -d /home/conduit/.ssh ]; then
-    mkdir -p /home/conduit/.ssh
-    chmod 0700 /home/conduit/.ssh
-fi
-cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
-chown conduit:conduit -R /home/conduit/.ssh
-
-# set up conduit web server
-if [ ! -d /var/www/conduit ]; then
-    mkdir /var/www/conduit
-fi
-a2dissite default
-cp /etc/apache2/sites-available/default /etc/apache2/sites-available/conduit
-sed -i -e 's#DocumentRoot[ ]/var/www#DocumentRoot /var/www/conduit#' /etc/apache2/sites-available/conduit
-a2ensite conduit
-service apache2 restart
-
-# copy files to web server
-cp -r /vagrant/urlTesting /var/www/conduit/
-cp -r /vagrant/report /var/www/conduit
-
-## create git repo for ukResonseErsatz example
-cd /var/www/conduit/report/mappingFlowsGist
-git config --global user.name "conduit"
-git config --global user.email conduit
-git init
-git add mappingFlows.R
-git commit -am "initial commit"
-cd ..
-if [ -d 7cc0d51de63cfefb80e8.git ]; then
-    rm -rf 7cc0d51de63cfefb80e8.git
-fi
-git clone --bare mappingFlowsGist 7cc0d51de63cfefb80e8.git
-cd 7cc0d51de63cfefb80e8.git
-mv hooks/post-update.sample hooks/post-update
-chmod a+x hooks/post-update
-git update-server-info
-cd ~
-service apache2 restart
-
-## set web server ownership
-chown -R conduit:conduit /var/www/conduit
-
-## set timezone to NZ
-echo "Pacific/Auckland" | tee /etc/timezone
-dpkg-reconfigure --frontend noninteractive tzdata
-
-## customise /etc/matplotlibrc 
-## sets backend to 'Agg' to prevent needing X windows
-sed -i -e 's/^backend[ ]*:[ ]*TkAgg/backend : Agg/' /etc/matplotlibrc
-
-## install python modules
-## download pip
-wget -q -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-## install latest pip for user
-python /tmp/get-pip.py
-pip install -U numexpr
-pip install -U numpy
-pip install -U pandas
+apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev 
 
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R

@@ -7,9 +7,7 @@ chooseCRANmirror(
 setRepositories(ind=c(1,2,8))
 
 ## install packages from repos
-packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz", 
-              "devtools", "R2HTML", "ggplot2", "data.table", "git2r",
-              "lattice", "classInt")
+packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
         install.packages(pkgs=pkg, lib=vagrantLib)
@@ -18,9 +16,6 @@ installIfRequired <- function(pkg) {
 for (i in packages) {
     installIfRequired(i)
 }
-while (!require("gridGraphviz")) {
-  install.packages("gridGraphviz", lib=vagrantLib)
-}
 
 ## Install conduit
-devtools::install_github("anhinton/conduit", ref="v0.2", lib=vagrantLib)
+devtools::install_github("anhinton/conduit", ref="v0.3", lib=vagrantLib)
