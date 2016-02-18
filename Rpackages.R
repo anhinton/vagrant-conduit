@@ -19,4 +19,4 @@ for (i in packages) {
 }
 
 ## Install conduit
-devtools::install_github("anhinton/conduit", lib=vagrantLib)
+devtools::install_github("anhinton/conduit", ref="v0.4", lib=vagrantLib)

@@ -13,5 +13,16 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev 
 
+# set up 'conduit' user for module host testing
+if [ ! -d /home/conduit ]; then
+    useradd -m conduit
+fi
+if [ ! -d /home/conduit/.ssh ]; then
+    mkdir -p /home/conduit/.ssh
+    chmod 0700 /home/conduit/.ssh
+fi
+cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
+chown conduit:conduit -R /home/conduit/.ssh
+
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R
