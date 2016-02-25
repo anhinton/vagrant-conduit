@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
   ## base machine 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/wily64"
   ## provisioning script
   config.vm.provision :shell, :path => "bootstrap.sh"
 end

@@ -15,16 +15,17 @@ then
 fi
 
 # Add CRAN to repos
-echo deb http://cran.stat.auckland.ac.nz/bin/linux/ubuntu trusty/ > \
-    /etc/apt/sources.list.d/CRAN.list
+echo deb https://cran.stat.auckland.ac.nz/bin/linux/ubuntu wily/ > \
+     /etc/apt/sources.list.d/CRAN.list
 # Add signing authority for CRAN repo
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # install packages
 # libxml2-dev is required by R package XML
 # libcurl4-openssl-dev is required by R package RCurl
+# libssl-dev is required by a dependency of R package devtools
 apt-get update
-apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev 
-
+apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev \
+	libssl-dev
 # set up 'conduit' user for module host testing
 if [ ! -d /home/conduit ]; then
     useradd -m conduit
