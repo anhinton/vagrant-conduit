@@ -2,9 +2,9 @@
 vagrantLib <- .Library.site[1]
 ## select http://cran.stat.auckland.ac.nz for CRAN mirror
 chooseCRANmirror(
-    ind=which(getCRANmirrors()[,"URL"] == "http://cran.stat.auckland.ac.nz/"))
+    ind=which(getCRANmirrors()[,"URL"] == "https://cran.stat.auckland.ac.nz/"))
 ## selecte CRAN, BioConductor, R-Forge for repos
-setRepositories(ind=c(1,2,8))
+setRepositories(ind=c(1,2))
 
 ## install packages from repos
 packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz",
@@ -19,4 +19,4 @@ for (i in packages) {
 }
 
 ## Install conduit
-devtools::install_github("anhinton/conduit", ref="v0.4", lib=vagrantLib)
+devtools::install_github("anhinton/conduit@v0.5", lib=vagrantLib)
