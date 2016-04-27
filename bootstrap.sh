@@ -15,7 +15,7 @@ then
 fi
 
 # Add CRAN to repos
-echo deb https://cran.stat.auckland.ac.nz/bin/linux/ubuntu wily/ > \
+echo deb https://cran.stat.auckland.ac.nz/bin/linux/ubuntu trusty/ > \
      /etc/apt/sources.list.d/CRAN.list
 # Add signing authority for CRAN repo
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
@@ -26,16 +26,6 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev \
 	libssl-dev
-# set up 'conduit' user for module host testing
-if [ ! -d /home/conduit ]; then
-    useradd -m conduit
-fi
-if [ ! -d /home/conduit/.ssh ]; then
-    mkdir -p /home/conduit/.ssh
-    chmod 0700 /home/conduit/.ssh
-fi
-cat /vagrant/conduit.key.pub >> /home/conduit/.ssh/authorized_keys
-chown conduit:conduit -R /home/conduit/.ssh
 
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R
