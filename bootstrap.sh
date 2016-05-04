@@ -24,8 +24,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # libcurl4-openssl-dev is required by R package RCurl
 # libssl-dev is required by a dependency of R package devtools
 apt-get update
-apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev \
-	libssl-dev
+apt-get install -y r-base r-base-dev libxml2-dev libssl-dev
 
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R

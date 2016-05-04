@@ -7,8 +7,7 @@ chooseCRANmirror(
 setRepositories(ind=c(1,2))
 
 ## install packages from repos
-packages <- c("RCurl", "XML", "graph", "RBGL", "Rgraphviz", "gridGraphviz",
-              "testthat", "devtools")
+packages <- c("XML", "Rgraphviz", "gridGraphviz", "testthat", "devtools")
 installIfRequired <- function(pkg) {
     if (!require(package=pkg, character.only=TRUE)) {
         install.packages(pkgs=pkg, lib=vagrantLib)
@@ -19,4 +18,4 @@ for (i in packages) {
 }
 
 ## Install conduit
-devtools::install_github("anhinton/conduit@v0.5", lib=vagrantLib)
+devtools::install_github("anhinton/conduit@develop", lib=vagrantLib)
