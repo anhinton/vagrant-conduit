@@ -7,7 +7,8 @@ chooseCRANmirror(
 setRepositories(ind=c(1,2))
 
 ## install packages from repos
-packages <- c("XML", "Rgraphviz", "gridGraphviz", "testthat", "devtools")
+packages <- c("XML", "whisker", "Rgraphviz", "gridGraphviz",
+              "testthat", "devtools")
 installIfRequired <- function(pkg) {
     if (!suppressWarnings(require(package=pkg, character.only=TRUE))) {
         install.packages(pkgs=pkg, lib=vagrantLib)
@@ -15,6 +16,12 @@ installIfRequired <- function(pkg) {
 }
 for (i in packages) {
     installIfRequired(i)
+}
+
+## install rPython against Python3
+if (!suppressWarnings(require(package="rPython", character.only=TRUE))) {
+    install.packages(pkgs="rPython", lib=vagrantLib,
+                     configure.vars="RPYTHON_PYTHON_VERSION=3")
 }
 
 ## Install conduit
