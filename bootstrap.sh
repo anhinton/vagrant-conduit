@@ -27,7 +27,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 # python and python3 are system dependencies of R package conduit
 apt-get update
 apt-get install -y r-base r-base-dev libxml2-dev libssl-dev \
-	libcurl4-openssl-dev python3-dev python python3
+	libcurl4-openssl-dev python-dev python python3
 
 ## install R packages from /vagrant/Rpackages.R
 Rscript /vagrant/Rpackages.R
